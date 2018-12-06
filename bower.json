@@ -1,0 +1,22 @@
+{
+  "name": "aframe-travel-node",
+  "authors": [
+    "Ruben van der Leun <ruben@leunix.nl>"
+  ],
+  "description": "A component meant to facilitate movement through a 3D environment via gaze-based input. Can be handy for cardboard movement.",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "aframe": "~0.3.1",
+    "aframe-animation-component": "https://github.com/ngokevin/aframe-animation-component.git"
+  }
+}

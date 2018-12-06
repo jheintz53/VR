@@ -1,0 +1,117 @@
+<!doctype html>
+<html>
+
+<head>
+	<script src="https://aframe.io/releases/0.8.0/aframe.min.js"></script>
+	<script src="https://unpkg.com/aframe-extras.animation-mixer@3.4.0/dist/aframe-extras.animation-mixer.js"></script>
+	<script src="Scripts/dist/aframe-travel-component.min.js"></script>
+	<script src="Scripts/Howler/dist/howler.js"></script>
+<script>
+    var sound = new Howl({
+  src: ['Assets/Thunder.mp3'],
+		volume: 1,
+  onplayerror: function() {
+    sound.once('unlock', function() {
+      sound.play();
+    });
+  }
+});
+
+sound.play();
+	
+</script>
+<script>
+      AFRAME.registerComponent('model-opacity', {
+        schema: {default: 1.0},
+        init: function () {
+          // this.el.addEventListener('model-loaded', this.update.bind(this));
+          this.el.addEventListener("model-loaded", ()=>{
+            const object3DEl = this.el.object3DMap;
+          console.log('this.el.object3DMap:', object3DEl);
+          
+          var mesh = this.el.getObject3D('mesh'); // For hand, the result is undefined
+          // var mesh = this.el.object3DMap.mesh; // For hand, the result is undefined
+          console.log(mesh);
+          var data = this.data;
+          if (!mesh) { return; }
+          mesh.traverse(function (node) {
+            if (node.isMesh) {
+              console.log(node);
+              node.material.opacity = data;
+              node.material.transparent = data < 1.0;
+              node.material.needsUpdate = true;
+            }
+          });
+          }, 2000)
+          
+          
+        },
+        update: function () {
+          var mesh = this.el.getObject3D('mesh');
+          var data = this.data;
+          if (!mesh) { return; }
+          mesh.traverse(function (node) {
+            if (node.isMesh) {
+              console.log(node);
+              node.material.opacity = data;
+              node.material.transparent = data < 1.0;
+              node.material.needsUpdate = true;
+            }
+          });
+        }
+      });
+    
+    </script>
+</head>
+
+<body>
+    <a-scene fog="type: linear; color: #999; far: 60; near: 0; density: .0001;">
+		<a-entity id="camera" position="-17.25 4.5 30.30" camera look-controls wasd-controls>
+            <a-cursor></a-cursor>
+        </a-entity>
+		<a-entity light="type: ambient; color: #cff"></a-entity>
+		<a-entity light="type: spot; angle: 20; castShadow: true;" rotation="0 90 0;" color="#FFFF38;"
+          position="-16 5 7" ></a-entity>
+		<a-entity light="type: point; intensity: 0.75; distance: 50; decay: 2;" 
+          position="-16 2 2"></a-entity>
+		<a-video src="#billboard" width="8" height="2.5" position="2.5 7.8 13.5" rotation="0 90 0" ></a-video>
+		<a-video src="#billboard" width="2" height="2.5" position="-3.4 3.43 -9.5" rotation="0 90 0"></a-video>
+		<a-video src="#billboard" width="2" height="2.5" position="-3.4 3.43 5.7" rotation="0 90 0" ></a-video>
+		<a-video src="#billboard" width="7.75" height="5" position="1.8 12.75 -.05" ></a-video>
+		<a-video src="#billboard" width="7.9" height="6.2" position="-36.5 12.75 5.8" ></a-video>
+		<a-sound src="Assets/Thunder.mp3" autoplay="true" position="-16 0 16"></a-sound>
+		<a-gltf-model src="#basetown3" animation-mixer shadow="cast: true" ></a-gltf-model>
+		<a-gltf-model src="#blimpfix" animation-mixer shadow="cast: true" ></a-gltf-model>
+		<a-gltf-model src="#lamp" shadow="cast: true" travel-node="transition: fade" ></a-gltf-model>
+		<a-gltf-model src="#lamp2" shadow="cast: true" travel-node="transition: fade" ></a-gltf-model>
+		<a-gltf-model src="#cafe" shadow="cast: true" ></a-gltf-model>
+		<a-gltf-model src="#store" shadow="cast: true" ></a-gltf-model>
+		<a-gltf-model src="#fencing" shadow="cast: true" ></a-gltf-model>
+		<a-gltf-model src="#glass" animation-mixer shadow="cast: true" model-opacity="0.2" ></a-gltf-model>
+		<a-sphere position="-10 4 10" radius="2" color="#4CC3D9" travel-node="transition: fade" ></a-sphere>
+		<a-sphere position="-20 4 -30" radius="2" color="#4CC3D9" travel-node="transition: fade" ></a-sphere>
+		<a-sky color="#000000"></a-sky>
+		
+		<a-assets>
+		<video id="billboard" autoplay loop="true" src="Assets/Example.mp4" ></video>	
+        <a-asset-item id="lamp" src="Assets/lamp.gltf" ></a-asset-item>
+		<a-asset-item id="lamp2" src="Assets/lamp2.gltf" ></a-asset-item>
+		<a-asset-item id="basetown3" src="Assets/basetown3.gltf"></a-asset-item>
+		<a-asset-item id="cafe" src="Assets/cafe.gltf"></a-asset-item>
+		<a-asset-item id="store" src="Assets/store.gltf"></a-asset-item>
+		<a-asset-item id="glass" src="Assets/glass.gltf"></a-asset-item>
+		<a-asset-item id="fencing" src="Assets/fencing.gltf"></a-asset-item>
+		<a-asset-item id="blimpfix" src="Assets/blimp.gltf"></a-asset-item>
+		
+      </a-assets>
+      
+      
+		
+    </a-scene>
+	
+	
+</body>
+
+	
+	
+</html>
